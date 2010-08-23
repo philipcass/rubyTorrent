@@ -58,3 +58,28 @@
         float: left;
         overflow: auto;
     }
+		/* home top menu */
+
+			.menu .controls { 
+				background-color: #d0d0d0; /* This property is for the background colour */
+				border:solid;
+				border-color: #afafaf;
+				margin: 0px 5px 5px 5px;
+				padding: 2px 2px 2px 2px;
+				border-width:1px;
+				width:200px;
+				height:auto;
+				float:right;
+			}
+			.menu h1 {.
+		        font-weight: 100;
+		        float:left;
+		        cursor: pointer;
+			}
+			.menu .controls p {
+				display:block;
+				margin:0px 0px 0px 0px;
+			}
+			.menu .controls button {
+				margin:0px 2px 0px 2px;
+			}

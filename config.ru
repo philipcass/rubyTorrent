@@ -4,6 +4,7 @@ require 'home'
 require 'xmlrpc.rb'
 require 'torrentlist'
 require 'warden'
+require 'ajaxCmds'
 
 
 server = XmlrpcClient.new
@@ -61,5 +62,9 @@ end
 
 map '/torrentlist' do
 	run Torrentlist.new(server)
+end
+
+map '/ajaxcmd' do
+	run AjaxCmds.new
 end
 

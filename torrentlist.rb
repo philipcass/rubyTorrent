@@ -36,29 +36,30 @@ class Torrentlist
         <span class="torrent-info" style="border-color:transparent;width:100px;">Torrent Status</span>
     </div>
 				<div id="accor-store">
-			<% subTitles.each{
+			<% subtorrent.each{
 				|info2| %>
 				    <div class="accordion" style="display:none;">
 					<% info2.each{
-						|titles| 
-							if titles[1] == 1 
+						|torrent| 
+							if torrent["d.is_active="] == 1 
 								status = "Active"
 							else 
 								status = "Inactive"
 							end
-							percentComplete = 100-(((titles[2]).to_f/titles[3])*100);
+							percentComplete = 100-(((torrent["d.get_left_bytes="]).to_f/torrent["d.get_size_bytes="])*100);
 							%>
-						    <div id="header">
-							<a href="#" style="float:left;width:25%;overflow: hidden;white-space: nowrap;"> <%= titles[0] %> </a>
-							<span class="torrent-info" id="peers"> <%= titles[8] %> </span>
-							<span class="torrent-info" id="ratio"> <%= ratioAdjust(titles[7]) %> </span>
-							<span class="torrent-info" id="seeded"> <%= titles[6] %> </span>
-							<span class="torrent-info" id="up"> <%= sprintf('%.2f', titles[5].to_f/1024) %> </span>
-							<span class="torrent-info" id="down"> <%= sprintf('%.2f', titles[4].to_f/1024) %> </span>
-							<span class="torrent-info" id="size"> <%= titles[3]/1024 %> </span>
-							<span class="torrent-info" id="remain"> <%= titles[2]/1024 %> </span>
-							<div class="progressbar" ><span style="display:none;"> <%= sprintf(percentComplete.to_s) %> </span></div>
-							<span class="torrent-info" style="width:100px;" id="status"> <%= sprintf(status) %> </span>
+						    <div class="header" id="<%= torrent["d.get_hash="] %> ">
+								<img src='public/icon.png' id="stop" style="float:left;margin: 7px 2px 0px 2px;"/>
+								<a href="#" style="float:left;width:25%;overflow: hidden;white-space: nowrap;"> <%= torrent["d.get_name="] %> </a>
+								<span class="torrent-info" id="peers"> <%= torrent["d.get_peers_accounted="] %> </span>
+								<span class="torrent-info" id="ratio"> <%= ratioAdjust(torrent["d.get_ratio="]) %> </span>
+								<span class="torrent-info" id="seeded"> <%= torrent["d.get_connection_seed="] %> </span>
+								<span class="torrent-info" id="up"> <%= sprintf('%.2f', torrent["d.get_up_rate="].to_f/1024) %> </span>
+								<span class="torrent-info" id="down"> <%= sprintf('%.2f', torrent["d.get_down_rate="].to_f/1024) %> </span>
+								<span class="torrent-info" id="size"> <%= torrent["d.get_size_bytes="]/1024 %> </span>
+								<span class="torrent-info" id="remain"> <%= torrent["d.get_left_bytes="]/1024 %> </span>
+								<div class="progressbar" ><span style="display:none;"> <%= sprintf(percentComplete.to_s) %> </span></div>
+								<span class="torrent-info" style="width:100px;" id="status"> <%= sprintf(status) %> </span>
 						    </div>                                 
 							<div></div>
 						<% } %>
@@ -76,22 +77,22 @@ class Torrentlist
 		
 
 		info = @xmlrpc.getInfo(req["view"])
-
+		
 		tempArray = Array.new
 		i = 0
-		subTitles = Array.new
+		subtorrent = Array.new
 		
 		while tempArray!=nil do
 			tempArray = info.slice(i..(i+7))
 			if tempArray == nil then
 				break
 			end
-			i+=20
+			i+=8
 
-			subTitles << tempArray
+			subtorrent << tempArray
 		end
 
-		#puts subTitles
+		#puts subtorrent
 
 		message = Erubis::Eruby.new(template)
 

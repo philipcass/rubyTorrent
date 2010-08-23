@@ -16,17 +16,32 @@ class Home
 					<title>Untitled Document</title>
 					<script type="text/javascript">
 						tabulateMain();
+						function runCmd(){
+							$.post("/ajaxcmd", { cmd: "loadTorrent", time: "2pm" } );		
+						}
+						
 					</script>
+
 				</head>
 
 				<body style="font-size: 60%;min-width:1200px"> 
+					<div id="dialog-form" title="Create new user">
+						<p class="validateTips">All form fields are required.</p>
+					
+						<form method='POST' enctype='multipart/form-data' action='fup.cgi' onsubmit="sendform(this);return false;"> 
+						File to upload: <input id="the-file" type=file name=upfile><br> 
+						</form> 
+					</div>
 					<div class="main">
-						<div class="menu">
-							<div style="float:left;" class="controls">						
-								<h1>WEHBAPP</h1>
-							</div>
-							<div style="float:right;" class="controls">						
-								<button onclick="window.location='/?logout=true'" type="button">Logout</button>
+						<div class="menu ">					
+							<h1 >WEHBAPP</h1>
+							<div class="controls ui-corner-all">
+								<p id="user"><%= env['warden'].user %></p>
+								<p id="usage">Percentage Usage</p>
+								<p id="activeTorrents">Active torrents</p>
+								
+								<button style="float:right" onclick="window.location='/?logout=true'">Logout</button>
+								<button style="float:right" id="opener">Add Torrent</button>
 							</div>
 						</div>
 						
@@ -45,7 +60,7 @@ class Home
 	 
 		}
 		req = Rack::Request.new(env)
-		puts req['logout']
+		#puts req['logout']
 		if req['logout'] == "true"
 			env['warden'].logout
 			puts "logout"

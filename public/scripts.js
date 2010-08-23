@@ -1,7 +1,44 @@
 function tabulateMain(){
-	$(function() {
-		$(".tabs").tabs();
-	});
+			$(function() {
+				$(".tabs").tabs();
+				$("button").button();
+			});
+			$(function() {
+				$("#dialog-form").dialog({
+					autoOpen: false,
+					title: 'Add Torrent',
+					height: 300,
+					width: 350,
+					modal: true,
+					buttons: {
+						Cancel: function(){
+							$(this).dialog('close');
+						},
+						'Add Torrent': function(){
+							//$("#dialog-form > form").submit()
+							var fileInput = document.getElementById('the-file');
+							var file = fileInput.files[0];
+							
+							var xhr = new XMLHttpRequest();
+							xhr.open('POST', '/ajaxcmd?cmd=loadTorrent', true);
+							xhr.setRequestHeader("X-File-Name", file.name);
+							xhr.setRequestHeader("Content-Type", "application/octet-stream");
+							xhr.send(file); // Simple!
+
+							$(this).dialog('close');
+						}
+					}
+				});
+	
+			$('#opener').click(function() {
+				$("#dialog-form").dialog('open');
+				// prevent the default action, e.g., following a link
+				return false;
+			});
+		});
+		function sendform(form){
+			alert("LOLOLOL");
+		}
 }
 
 function tabulateSub(){
@@ -42,6 +79,10 @@ function setupAccoridion(){
 		});
 	});
 	$("#accor-store > .accordion").css("display", "block");
-
+	$(".header > img").click(function(event){
+			id = $(this).parent().attr('id');
+			$.get("/ajaxcmd", { cmd: "stopTorrent", id: id } );
+			event.stopPropagation();
+	})
 }
 
