@@ -41,11 +41,19 @@ class Torrentlist
 				    <div class="accordion" style="display:none;">
 					<% info2.each{
 						|torrent| 
-							if torrent["d.is_active="] == 1 
-								status = "Active"
-							else 
-								status = "Inactive"
+							status = ""
+							if torrent["d.is_active="] == 0 
+								status = "Stopped"
 							end
+
+							if torrent["d.is_active="] == 1  
+								if torrent["d.get_connection_current="] =="leech"
+									status = "Downloading"
+								else
+									status = "Seeding"
+								end
+							end
+
 							percentComplete = 100-(((torrent["d.get_left_bytes="]).to_f/torrent["d.get_size_bytes="])*100);
 							%>
 						    <div class="header" id="<%= torrent["d.get_hash="] %> ">

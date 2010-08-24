@@ -37,6 +37,6 @@ class AjaxCmds
 		end
 		server = XmlrpcClient.new
 
-		server.addTorrent(dir)
+		server.addTorrent(dir,"/home/weh/")
 	end
 end
