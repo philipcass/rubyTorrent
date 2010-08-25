@@ -28,9 +28,7 @@ class Home
 					<div id="dialog-form" title="Create new user">
 						<p class="validateTips">All form fields are required.</p>
 					
-						<form method='POST' enctype='multipart/form-data' action='fup.cgi' onsubmit="sendform(this);return false;"> 
 						File to upload: <input id="the-file" type=file name=upfile><br> 
-						</form> 
 					</div>
 					<div class="main">
 						<div class="menu ">					
