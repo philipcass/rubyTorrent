@@ -83,3 +83,13 @@
 			.menu .controls button {
 				margin:0px 2px 0px 2px;
 			}
+			
+/* download bar theming */
+.ui-accordion-header.Downloading {
+	background:#E6E6E6 url(smoothness/images/torrentStatusDown.png) repeat-x 50% 50%;
+
+}
+.ui-accordion-header.Stopped {
+	background:#E6E6E6 url(smoothness/images/torrentStatusStop.png) repeat-x 50% 50%;
+
+}

@@ -56,7 +56,7 @@ class Torrentlist
 
 							percentComplete = 100-(((torrent["d.get_left_bytes="]).to_f/torrent["d.get_size_bytes="])*100);
 							%>
-						    <div class="header" id="<%= torrent["d.get_hash="] %> ">
+						    <div class="header <%= sprintf(status) %>" id="<%= torrent["d.get_hash="] %> ">
 								<img src='public/icon.png' id="stop" style="float:left;margin: 7px 2px 0px 2px;"/>
 								<a href="#" style="float:left;width:25%;overflow: hidden;white-space: nowrap;"> <%= torrent["d.get_name="] %> </a>
 								<span class="torrent-info" id="peers"> <%= torrent["d.get_peers_accounted="] %> </span>
@@ -85,6 +85,7 @@ class Torrentlist
 		
 
 		info = @xmlrpc.getInfo(req["view"])
+		info.reverse!
 		
 		tempArray = Array.new
 		i = 0

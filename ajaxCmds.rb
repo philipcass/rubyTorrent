@@ -1,6 +1,6 @@
 require 'erubis'
 require 'xmlrpc'
-require 'base64'
+require 'tempfile'
 class AjaxCmds
 
 	def call(env)
@@ -27,16 +27,12 @@ class AjaxCmds
 		#get the file name and post data from the env the postdata is stored in the rack but is not accessable via POST() method, probably due to the way I'm sending the data
 		filename = env['HTTP_X_FILE_NAME']
 		#remove this hardcoded value
-		dir = "/home/weh/"+filename
+		tmp = Tempfile.new(filename)
 		data =  env['rack.input'].read()
-		aFile = File.new(dir, "w+")
-		if aFile
-		   aFile.syswrite(data)
-		else
-		   puts "Unable to open file!"
-		end
+		tmp.syswrite(data)
 		server = XmlrpcClient.new
-
-		server.addTorrent(dir,"/home/weh/")
+		tmp.chmod 0644
+		server.addTorrent(tmp.path,"/home/weh/")
+		tmp.close!
 	end
 end
