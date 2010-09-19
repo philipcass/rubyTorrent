@@ -1,4 +1,5 @@
 require 'erubis'
+require 'redis'
 
 class Home
 
@@ -16,10 +17,7 @@ class Home
 					<title>Untitled Document</title>
 					<script type="text/javascript">
 						tabulateMain();
-						function runCmd(){
-							$.post("/ajaxcmd", { cmd: "loadTorrent", time: "2pm" } );		
-						}
-						
+						tabulateSub();					
 					</script>
 
 				</head>
@@ -45,12 +43,32 @@ class Home
 						
 						<div style="clear:both;" class="tabs">
 							<ul>
-								<li><a href="/public/torrenttabs.html?user=user">*Users* torrents</a></li>
-								<li><a href="/public/torrenttabs.html?user=public">Public Torrents</a></li>
+								<li><a href="#tabs-1"><%= env['warden'].user %>s torrents</a></li>
+								<li><a href="#tabs-2">Public Torrents</a></li>
 								<li><a href="subtabs.html">Info</a></li>
 								<li><a href="subtabs.html">Settings</a></li>
-
 							</ul>
+							<div id="tabs-1" class="tabs-container">
+								<ul>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view="><span>All</span></a></li>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view=started"><span>started</span></a></li>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view=stopped"><span>stopped</span></a></li>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view=complete"><span>complete</span></a></li>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view=hashing"><span>hashing</span></a></li>
+									<li><a href="/torrentlist/?user=<%= env['warden'].user %>&view=seeding"><span>seeding</span></a></li>
+								</ul>
+							</div>
+							<div id="tabs-2" class="tabs-container">
+								<ul>
+									<li><a href="/torrentlist/?user=&view="><span>All</span></a></li>
+									<li><a href="/torrentlist/?user=&view=started"><span>started</span></a></li>
+									<li><a href="/torrentlist/?user=&view=stopped"><span>stopped</span></a></li>
+									<li><a href="/torrentlist/?user=&view=complete"><span>complete</span></a></li>
+									<li><a href="/torrentlist/?user=&view=hashing"><span>hashing</span></a></li>
+									<li><a href="/torrentlist/?user=&view=seeding"><span>seeding</span></a></li>
+								</ul>
+							</div>
+
 						</div>
 					</div>
 				</body> 

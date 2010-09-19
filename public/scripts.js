@@ -22,20 +22,11 @@ function tabulateMain(){
 							var fileInput = document.getElementById('the-file');
 							var file = fileInput.files[0];
 
-							
-							var reader = new FileReader();
-
-							reader.onload = function(e) {
-								var xhr = new XMLHttpRequest();
-								
-								xhr.open('POST', '/ajaxcmd?cmd=loadTorrent', true);
-								xhr.setRequestHeader("X-File-Name", file.name);
-								xhr.setRequestHeader("Content-Type", "application/octet-stream");
-								xhr.send(e.target.result); // Simple!
-							};
-								
-							reader.readAsBinaryString(blob);
-							
+							var xhr = new XMLHttpRequest();
+							xhr.open('POST', '/ajaxcmd?cmd=loadTorrent', true);
+							xhr.setRequestHeader("X-File-Name", file.name);
+							xhr.setRequestHeader("Content-Type", "application/octet-stream");
+							xhr.send(file); // Simple!
 
 							$(this).dialog('close');
 						}

@@ -83,10 +83,22 @@ class Torrentlist
 		req = Rack::Request.new(env)				#This gets the request env variable in a hash. So you can access the get n' post info. LIKE THE VIEW
 		
 		
-
+		
 		info = @xmlrpc.getInfo(req["view"])
 		info.reverse!
 		
+		#only show user torrents
+		puts req["user"]		
+
+		if req["user"] == env['warden'].user
+			info = info.select {|v| v["d.get_custom1="] == env['warden'].user}
+		end
+
+
+		#Sort by attribute
+		#info.sort!{|a,b| a["d.get_size_bytes="]<=>b["d.get_size_bytes="]}
+
+
 		tempArray = Array.new
 		i = 0
 		subtorrent = Array.new

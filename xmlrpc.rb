@@ -13,7 +13,7 @@ class XmlrpcClient
 	end
 
 	def getInfo(view)
-		keys = ["d.get_name=", "d.is_active=","d.get_complete=" ,"d.get_connection_current=","d.get_left_bytes=" ,"d.get_size_bytes=" ,"d.get_down_rate=" ,"d.get_up_rate=" ,"d.get_connection_seed=" ,"d.get_ratio=" ,"d.get_peers_accounted=","d.get_hash="]
+		keys = ["d.get_name=", "d.is_active=","d.get_complete=" ,"d.get_connection_current=","d.get_left_bytes=" ,"d.get_size_bytes=" ,"d.get_down_rate=" ,"d.get_up_rate=" ,"d.get_connection_seed=" ,"d.get_ratio=" ,"d.get_peers_accounted=","d.get_hash=","d.get_custom1="]
 		result = @server.call_async("d.multicall", view, *keys)
 		result2 = []
 		result.each{
@@ -24,12 +24,13 @@ class XmlrpcClient
 		
 		}
 		#puts result2
-		puts result2[0]["d.get_complete="]
+		#puts result2[0]["d.get_complete="]
 		return result2
 	end
 	
-	def addTorrent(torrentLocation, downloadDir)
-		result = @server.call("load_start_verbose",torrentLocation)
+	def addTorrent(torrentLocation, downloadDir,user)
+		#Store username in custom1
+		puts @server.call("load_start_verbose",torrentLocation,"d.set_directory="+"\""+downloadDir+"\"","d.set_custom1="+"\""+user.to_s+"\"")
 
 	end
 	

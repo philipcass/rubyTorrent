@@ -32,7 +32,11 @@ class AjaxCmds
 		tmp.syswrite(data)
 		server = XmlrpcClient.new
 		tmp.chmod 0644
-		server.addTorrent(tmp.path,"/home/weh/")
+		server.addTorrent(tmp.path,"/home/rtorrent/data/weh",env['warden'].user)
 		tmp.close!
+
+		#Add torrent to redis db userset, ided by the current warden user
+		#r = Redis.new
+		#r.sadd env['warden'].user, '########'
 	end
 end
